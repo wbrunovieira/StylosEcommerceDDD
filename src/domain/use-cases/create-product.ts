@@ -1,3 +1,9 @@
+import { Material } from '../entities/material';
+import { Product } from '../entities/product';
+import { Size } from '../entities/size';
+import { ProductRepository } from '../repositories/product-repository';
+import { Color } from '../entities/color'; // Supondo que Color seja um tipo definido em algum lugar
+
 interface CreateProductUseCaseRequest {
   ProductId: string;
   name: string;
@@ -6,12 +12,13 @@ interface CreateProductUseCaseRequest {
   size: string;
   material: string;
   brand: string;
-  price: string;
+  price: number;
   stock: number;
 }
 
 export class CreateProductUseCase {
-  execute({
+  constructor(private productRepository: ProductRepository) {}
+  async execute({
     ProductId,
     name,
     description,
@@ -22,28 +29,23 @@ export class CreateProductUseCase {
     price,
     stock,
   }: CreateProductUseCaseRequest) {
-    return {
-      ProductId,
+    const colorInstance = new Color({ name: color });
+    const materialInstance = new Material({ name: material });
+
+    const sizeInstance = new Size({ name: size });
+    const product = new Product({
       name,
       description,
-      color,
-      size,
-      material,
-      brand,
+      color: [colorInstance],
+      size: [sizeInstance],
+      material: [materialInstance],
+      brandID: brand,
       price,
       stock,
-    };
+    });
+
+    await this.productRepository.create(product);
+
+    return product;
   }
 }
-
-new CreateProductUseCase().execute({
-  ProductId: '1',
-  name: 'name',
-  description: 'description',
-  color: 'color',
-  size: 'size',
-  material: 'material',
-  brand: 'brand',
-  price: 'price',
-  stock: 1,
-});

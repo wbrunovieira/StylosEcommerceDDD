@@ -10,7 +10,7 @@ interface ProductProps {
   size: Size[];
   material: Material[];
   brandID: string;
-  price: string;
+  price: number;
   stock: number;
 }
 
@@ -22,7 +22,7 @@ export class Product {
   public size: Size[];
   public material: Material[];
   public brandID: string;
-  public price: string;
+  public price: number;
   public stock: number;
 
   constructor(props: ProductProps, id?: string) {
