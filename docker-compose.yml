@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  ddd:
+    container_name: stylos_ddd
+    build: .
+    command: npx vitest run
+    volumes:
+      - ./src:/app/src
+    environment:
+      - NODE_ENV=development
+
+    ports:
+      - '3334:3334'
