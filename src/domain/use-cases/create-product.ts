@@ -3,6 +3,7 @@ import { Product } from '../entities/product';
 import { Size } from '../entities/size';
 import { ProductRepository } from '../repositories/product-repository';
 import { Color } from '../entities/color'; // Supondo que Color seja um tipo definido em algum lugar
+import { Slug } from '../entities/value-objects/slug';
 
 interface CreateProductUseCaseRequest {
   ProductId: string;
@@ -14,6 +15,7 @@ interface CreateProductUseCaseRequest {
   brand: string;
   price: number;
   stock: number;
+  slug: Slug; // Add the missing 'slug' property
 }
 
 export class CreateProductUseCase {
@@ -25,6 +27,7 @@ export class CreateProductUseCase {
     color,
     size,
     material,
+    slug,
     brand,
     price,
     stock,
@@ -42,6 +45,7 @@ export class CreateProductUseCase {
       brandID: brand,
       price,
       stock,
+      slug,
     });
 
     await this.productRepository.create(product);

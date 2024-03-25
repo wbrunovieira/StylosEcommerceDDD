@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto';
 import { Color } from './color';
 import { Size } from './size';
 import { Material } from './material';
+import { Slug } from './value-objects/slug';
 
 interface ProductProps {
   name: string;
@@ -12,11 +13,13 @@ interface ProductProps {
   brandID: string;
   price: number;
   stock: number;
+  slug: Slug;
 }
 
 export class Product {
   public id: string;
   public name: string;
+  public slug: Slug;
   public description: string;
   public color: Color[];
   public size: Size[];
@@ -28,6 +31,7 @@ export class Product {
   constructor(props: ProductProps, id?: string) {
     this.name = props.name;
     this.description = props.description;
+    this.slug = props.slug;
     this.color = props.color;
     this.size = props.size;
     this.material = props.material;

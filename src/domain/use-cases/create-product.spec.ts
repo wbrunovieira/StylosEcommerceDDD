@@ -11,6 +11,7 @@ test('create a product', async () => {
   const product = await createProduct.execute({
     ProductId: '1',
     name: 'name',
+    slug: { value: 'slug' },
     description: 'description',
     color: 'color',
     size: 'size',
