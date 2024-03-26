@@ -5,7 +5,7 @@ import { Optional } from '@/core/types/optional';
 
 import dayjs from 'dayjs';
 
-interface ProductProps {
+export interface ProductProps {
   name: string;
   description: string;
   colorId: UniqueEntityID[];

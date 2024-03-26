@@ -21,11 +21,11 @@ export class Slug {
       .normalize('NFKD')
       .toLowerCase()
       .trim()
-      .replace(/\s+/g, '-') //remove white space
-      .replace(/[^\w-]+/g, '') //remove special characters
-      .replace(/_/g, '-') //replace underscore with hyphen
-      .replace(/--+/g, '-') //replace multiple hyphens with single hyphen
-      .replace(/-$/g, ''); //remove hyphen at the end
+      .replace(/\s+/g, '-')
+      .replace(/[^\w-]+/g, '')
+      .replace(/_/g, '-')
+      .replace(/--+/g, '-')
+      .replace(/-$/g, '');
 
     return new Slug(slugText);
   }

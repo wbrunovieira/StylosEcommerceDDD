@@ -3,6 +3,7 @@ import { InMemoryProductRepository } from '@/test/repositories/in-memory-product
 import { Product } from '../../enterprise/entities/product';
 import { Slug } from '../../enterprise/entities/value-objects/slug';
 import { GetProductBySlugUseCase } from './get-product-by-slug';
+import { makeProduct } from '@/test/factories/make-product';
 
 let inMemoryProductRepository: InMemoryProductRepository;
 let sut: GetProductBySlugUseCase;
@@ -14,20 +15,9 @@ describe('Get Question By Slug', () => {
   });
 
   it('should be able to get a question by slug', async () => {
-    const newProduct = Product.create({
-      name: 'Example product',
-      description: 'Example description',
-      price: 100,
-      colorId: [new UniqueEntityID()],
-      sizeId: [new UniqueEntityID()],
-      brandID: new UniqueEntityID(),
-
-      materialId: new UniqueEntityID(),
-      stock: 10,
-
+    const newProduct = makeProduct({
       slug: Slug.create('example-product'),
     });
-
     await inMemoryProductRepository.create(newProduct);
 
     const { product } = await sut.execute({
