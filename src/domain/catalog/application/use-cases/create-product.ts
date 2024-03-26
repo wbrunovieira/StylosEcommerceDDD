@@ -1,8 +1,8 @@
-import { Product } from '../entities/product';
+import { Product } from '../../enterprise/entities/product';
 
 import { ProductRepository } from '../repositories/product-repository';
 
-import { Slug } from '../entities/value-objects/slug';
+import { Slug } from '../../enterprise/entities/value-objects/slug';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 
 interface CreateProductUseCaseRequest {
