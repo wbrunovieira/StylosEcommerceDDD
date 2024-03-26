@@ -9,14 +9,13 @@ const fakeProductRepository: ProductRepository = {
 test('create a product', async () => {
   const createProduct = new CreateProductUseCase(fakeProductRepository);
   const product = await createProduct.execute({
-    ProductId: '1',
     name: 'name',
     slug: { value: 'slug' },
     description: 'description',
-    color: 'color',
-    size: 'size',
-    material: 'material',
-    brand: 'brand',
+    colorIds: ['1', '2'],
+    sizeIds: ['1', '2'],
+    materialId: '1',
+    brandID: '1',
     price: 100,
     stock: 1,
   });

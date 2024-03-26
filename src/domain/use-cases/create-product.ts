@@ -4,48 +4,43 @@ import { Size } from '../entities/size';
 import { ProductRepository } from '../repositories/product-repository';
 import { Color } from '../entities/color'; // Supondo que Color seja um tipo definido em algum lugar
 import { Slug } from '../entities/value-objects/slug';
+import { UniqueEntityID } from '../../core/entities/unique-entity-id';
 
 interface CreateProductUseCaseRequest {
-  ProductId: string;
   name: string;
   description: string;
-  color: string;
-  size: string;
-  material: string;
-  brand: string;
+  colorIds: string[];
+  sizeIds: string[];
+  materialId: string;
+  brandID: string;
   price: number;
   stock: number;
-  slug: Slug; // Add the missing 'slug' property
+  slug: Slug;
 }
 
 export class CreateProductUseCase {
   constructor(private productRepository: ProductRepository) {}
+
   async execute({
-    ProductId,
     name,
     description,
-    color,
-    size,
-    material,
-    slug,
-    brand,
+    colorIds,
+    sizeIds,
+    materialId,
+
+    brandID,
     price,
     stock,
   }: CreateProductUseCaseRequest) {
-    const colorInstance = new Color({ name: color });
-    const materialInstance = new Material({ name: material });
-
-    const sizeInstance = new Size({ name: size });
-    const product = new Product({
+    const product = Product.create({
       name,
       description,
-      color: [colorInstance],
-      size: [sizeInstance],
-      material: [materialInstance],
-      brandID: brand,
+      colorId: colorIds.map((id) => new UniqueEntityID(id)),
+      sizeId: sizeIds.map((id) => new UniqueEntityID(id)),
+      materialId: new UniqueEntityID(materialId),
+      brandID: new UniqueEntityID(brandID),
       price,
       stock,
-      slug,
     });
 
     await this.productRepository.create(product);
