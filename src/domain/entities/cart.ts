@@ -1,11 +1,10 @@
-import { randomUUID } from 'node:crypto';
-import { Product } from './product';
 import { Entity } from '../../core/entities/entity';
+import { UniqueEntityID } from '../../core/entities/unique-entity-id';
 
 interface CartProps {
-  products: Product[];
+  productsId: UniqueEntityID[];
   total: number;
-  userId: string;
+  userId: UniqueEntityID;
 }
 
 export class Cart extends Entity<CartProps> {}
