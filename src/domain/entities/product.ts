@@ -1,8 +1,8 @@
-import { randomUUID } from 'crypto';
 import { Color } from './color';
 import { Size } from './size';
 import { Material } from './material';
 import { Slug } from './value-objects/slug';
+import { Entity } from '../../core/entities/entity';
 
 interface ProductProps {
   name: string;
@@ -16,28 +16,4 @@ interface ProductProps {
   slug: Slug;
 }
 
-export class Product {
-  public id: string;
-  public name: string;
-  public slug: Slug;
-  public description: string;
-  public color: Color[];
-  public size: Size[];
-  public material: Material[];
-  public brandID: string;
-  public price: number;
-  public stock: number;
-
-  constructor(props: ProductProps, id?: string) {
-    this.name = props.name;
-    this.description = props.description;
-    this.slug = props.slug;
-    this.color = props.color;
-    this.size = props.size;
-    this.material = props.material;
-    this.brandID = props.brandID;
-    this.price = props.price;
-    this.stock = props.stock;
-    this.id = id ?? randomUUID();
-  }
-}
+export class Product extends Entity<ProductProps> {}
