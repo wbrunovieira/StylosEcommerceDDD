@@ -1,3 +1,5 @@
+import { faker } from '@faker-js/faker';
+
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import {
   Product,
@@ -6,15 +8,15 @@ import {
 
 export function makeProduct(override: Partial<ProductProps> = {}) {
   const product = Product.create({
-    name: 'Example product',
-    description: 'Example description',
-    price: 100,
+    name: faker.commerce.productName(),
+    description: faker.commerce.productDescription(),
+    price: Number(faker.commerce.price()),
     colorId: [new UniqueEntityID()],
     sizeId: [new UniqueEntityID()],
     brandID: new UniqueEntityID(),
 
     materialId: new UniqueEntityID(),
-    stock: 10,
+    stock: faker.helpers.rangeToNumber(100),
 
     ...override,
   });

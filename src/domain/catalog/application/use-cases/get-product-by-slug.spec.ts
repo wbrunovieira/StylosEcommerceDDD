@@ -19,7 +19,7 @@ describe('Get Question By Slug', () => {
       slug: Slug.create('example-product'),
     });
     await inMemoryProductRepository.create(newProduct);
-
+    console.log(newProduct);
     const { product } = await sut.execute({
       slug: 'example-product',
     });
