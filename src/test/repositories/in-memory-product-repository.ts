@@ -7,4 +7,14 @@ export class InMemoryProductRepository implements ProductRepository {
   async create(product: Product) {
     this.items.push(product);
   }
+
+  async findBySlug(slug: string) {
+    const product = this.items.find((item) => item.slug.value === slug);
+
+    if (!product) {
+      return null;
+    }
+
+    return product;
+  }
 }
