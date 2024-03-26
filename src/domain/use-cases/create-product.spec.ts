@@ -1,4 +1,3 @@
-import { test, expect } from 'vitest';
 import { CreateProductUseCase } from './create-product';
 import { ProductRepository } from '../repositories/product-repository';
 

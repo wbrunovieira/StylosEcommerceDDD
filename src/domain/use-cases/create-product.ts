@@ -1,10 +1,9 @@
-import { Material } from '../entities/material';
 import { Product } from '../entities/product';
-import { Size } from '../entities/size';
+
 import { ProductRepository } from '../repositories/product-repository';
-import { Color } from '../entities/color'; // Supondo que Color seja um tipo definido em algum lugar
+
 import { Slug } from '../entities/value-objects/slug';
-import { UniqueEntityID } from '../../core/entities/unique-entity-id';
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 
 interface CreateProductUseCaseRequest {
   name: string;
