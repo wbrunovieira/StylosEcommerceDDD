@@ -2,7 +2,6 @@ import { Product } from '../../enterprise/entities/product';
 
 import { ProductRepository } from '../repositories/product-repository';
 
-import { Slug } from '../../enterprise/entities/value-objects/slug';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 
 interface CreateProductUseCaseRequest {
@@ -14,9 +13,11 @@ interface CreateProductUseCaseRequest {
   brandID: string;
   price: number;
   stock: number;
-  slug: Slug;
 }
 
+interface CreateProductUseCaseResponse {
+  product: Product;
+}
 export class CreateProductUseCase {
   constructor(private productRepository: ProductRepository) {}
 
@@ -26,11 +27,10 @@ export class CreateProductUseCase {
     colorIds,
     sizeIds,
     materialId,
-
     brandID,
     price,
     stock,
-  }: CreateProductUseCaseRequest) {
+  }: CreateProductUseCaseRequest): Promise<CreateProductUseCaseResponse> {
     const product = Product.create({
       name,
       description,
@@ -44,6 +44,8 @@ export class CreateProductUseCase {
 
     await this.productRepository.create(product);
 
-    return product;
+    return {
+      product,
+    };
   }
 }
