@@ -82,9 +82,56 @@ export class Product extends Entity<ProductProps> {
     this.touch();
   }
 
+  set description(description: string) {
+    this.props.description = description;
+
+    this.touch();
+  }
+
+  set brandId(brandId: UniqueEntityID) {
+    this.props.brandID = brandId;
+
+    this.touch();
+  }
+  set materialId(materialId: UniqueEntityID) {
+    this.props.materialId = materialId;
+
+    this.touch();
+  }
+
+  set sizeId(sizeId: UniqueEntityID[]) {
+    this.props.sizeId = sizeId;
+
+    this.touch();
+  }
+
+  set colorId(colorId: UniqueEntityID[]) {
+    this.props.colorId = colorId;
+
+    this.touch();
+  }
+
+  set price(price: number) {
+    this.props.price = price;
+
+    this.touch();
+  }
+
+  set stock(stock: number) {
+    this.props.stock = stock;
+
+    this.touch();
+  }
+
+  set slug(slug: Slug) {
+    this.props.slug = slug;
+
+    this.touch();
+  }
+
   static create(
     props: Optional<ProductProps, 'createdAt' | 'slug' | 'updatedAt'>,
-    id?: UniqueEntityID,
+    id?: UniqueEntityID
   ): Product {
     const now = new Date();
     const product = new Product(

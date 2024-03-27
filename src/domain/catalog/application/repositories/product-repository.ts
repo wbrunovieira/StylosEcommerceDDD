@@ -5,4 +5,5 @@ export interface ProductRepository {
   create(product: Product): Promise<void>;
   findBySlug(slug: string): Promise<Product | null>;
   delete(product: Product): Promise<void>;
+  save(product: Product): Promise<void>;
 }

@@ -2,6 +2,14 @@ import { ProductRepository } from '@/domain/catalog/application/repositories/pro
 import { Product } from '@/domain/catalog/enterprise/entities/product';
 
 export class InMemoryProductRepository implements ProductRepository {
+  async save(product: Product) {
+    const itemIndex = this.items.findIndex((item) => item.id === product.id);
+    if (itemIndex >= 0) {
+      this.items[itemIndex] = product;
+    } else {
+      console.log('erro to save product');
+    }
+  }
   public items: Product[] = [];
 
   async create(product: Product) {
