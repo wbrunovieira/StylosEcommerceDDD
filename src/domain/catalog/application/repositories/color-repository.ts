@@ -4,4 +4,5 @@ export interface ColorRepository {
   findById(id: string): Promise<Color | null>;
   create(product: Color): Promise<void>;
   delete(product: Color): Promise<void>;
+  save(product: Color): Promise<void>;
 }

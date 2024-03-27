@@ -21,6 +21,10 @@ export class Color extends Entity<ColorProps> {
     return this.props.updatedAt;
   }
 
+  set name(name: string) {
+    this.props.name = name;
+  }
+
   static create(
     props: Optional<ColorProps, 'createdAt' | 'updatedAt'>,
     id?: UniqueEntityID
