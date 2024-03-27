@@ -1,6 +1,5 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { InMemoryProductRepository } from '@/test/repositories/in-memory-product-repository';
-import { Product } from '../../enterprise/entities/product';
+
 import { Slug } from '../../enterprise/entities/value-objects/slug';
 import { GetProductBySlugUseCase } from './get-product-by-slug';
 import { makeProduct } from '@/test/factories/make-product';

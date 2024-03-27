@@ -1,3 +1,4 @@
+import { PaginationParams } from '@/core/repositories/pagination-params';
 import { ProductRepository } from '@/domain/catalog/application/repositories/product-repository';
 import { Product } from '@/domain/catalog/enterprise/entities/product';
 
@@ -14,6 +15,14 @@ export class InMemoryProductRepository implements ProductRepository {
 
   async create(product: Product) {
     this.items.push(product);
+  }
+
+  async findManyRecent({ page }: PaginationParams) {
+    const product = this.items
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      .slice((page - 1) * 20, page * 20);
+
+    return product;
   }
 
   async findBySlug(slug: string) {
