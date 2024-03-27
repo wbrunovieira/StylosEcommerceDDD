@@ -8,9 +8,9 @@ import dayjs from 'dayjs';
 export interface ProductProps {
   name: string;
   description: string;
-  colorId: UniqueEntityID[];
-  sizeId: UniqueEntityID[];
-  materialId: UniqueEntityID;
+  colorId?: UniqueEntityID[];
+  sizeId?: UniqueEntityID[];
+  materialId?: UniqueEntityID;
   brandID: UniqueEntityID;
   price: number;
   stock: number;
@@ -35,15 +35,15 @@ export class Product extends Entity<ProductProps> {
     return this.props.brandID;
   }
 
-  get materialId() {
+  get materialId(): UniqueEntityID | undefined {
     return this.props.materialId;
   }
 
-  get sizeId() {
+  get sizeId(): UniqueEntityID[] | undefined {
     return this.props.sizeId;
   }
 
-  get colorId() {
+  get colorId(): UniqueEntityID[] | undefined {
     return this.props.colorId;
   }
 

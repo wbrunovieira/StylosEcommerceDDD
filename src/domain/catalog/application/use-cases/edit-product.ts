@@ -1,6 +1,7 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { ProductRepository } from '../repositories/product-repository';
 import { Slug } from '../../enterprise/entities/value-objects/slug';
+import { Product } from '../../enterprise/entities/product';
 
 interface EditProductUseCaseRequest {
   productId: string;
@@ -15,7 +16,9 @@ interface EditProductUseCaseRequest {
   slug: string;
 }
 
-interface EditProductUseCaseResponse {}
+interface EditProductUseCaseResponse {
+  product: Product;
+}
 
 export class EditProductUseCase {
   constructor(private productsRepository: ProductRepository) {}
@@ -49,6 +52,8 @@ export class EditProductUseCase {
     slug: Slug.createFromText('name-teste'),
       await this.productsRepository.save(product);
 
-    return {};
+    return {
+      product,
+    };
   }
 }
