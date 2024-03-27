@@ -84,7 +84,7 @@ export class Product extends Entity<ProductProps> {
 
   static create(
     props: Optional<ProductProps, 'createdAt' | 'slug' | 'updatedAt'>,
-    id?: UniqueEntityID
+    id?: UniqueEntityID,
   ): Product {
     const now = new Date();
     const product = new Product(

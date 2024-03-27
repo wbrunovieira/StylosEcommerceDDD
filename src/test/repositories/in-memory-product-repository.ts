@@ -17,4 +17,20 @@ export class InMemoryProductRepository implements ProductRepository {
 
     return product;
   }
+
+  async findById(id: string) {
+    const product = this.items.find((item) => item.id.toString() === id);
+
+    if (!product) {
+      return null;
+    }
+
+    return product;
+  }
+
+  async delete(product: Product) {
+    const itemIndex = this.items.findIndex((item) => item.id === product.id);
+
+    this.items.splice(itemIndex, 1);
+  }
 }
