@@ -1,3 +1,4 @@
+import { Either, right } from '@/core/either';
 import { Product } from '../../enterprise/entities/product';
 
 import { ProductRepository } from '../repositories/product-repository';
@@ -15,9 +16,12 @@ interface CreateProductUseCaseRequest {
   stock: number;
 }
 
-interface CreateProductUseCaseResponse {
-  product: Product;
-}
+type CreateProductUseCaseResponse = Either<
+  null,
+  {
+    product: Product;
+  }
+>;
 export class CreateProductUseCase {
   constructor(private productRepository: ProductRepository) {}
 
@@ -44,8 +48,8 @@ export class CreateProductUseCase {
 
     await this.productRepository.create(product);
 
-    return {
+    return right({
       product,
-    };
+    });
   }
 }

@@ -1,13 +1,17 @@
 import { ColorRepository } from '../repositories/color-repository';
 import { Color } from '../../enterprise/entities/color';
+import { Either, right } from '@/core/either';
 
 interface CreateColorUseCaseRequest {
   name: string;
 }
 
-interface CreateColorUseCaseResponse {
-  color: Color;
-}
+type CreateColorUseCaseResponse = Either<
+  null,
+  {
+    color: Color;
+  }
+>;
 
 export class CreateColorUseCase {
   constructor(private colorRepository: ColorRepository) {}
@@ -21,8 +25,8 @@ export class CreateColorUseCase {
 
     await this.colorRepository.create(color);
 
-    return {
+    return right({
       color,
-    };
+    });
   }
 }

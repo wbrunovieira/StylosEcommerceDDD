@@ -1,3 +1,4 @@
+import { Either, right } from '@/core/either';
 import { Color } from '../../enterprise/entities/color';
 import { ColorRepository } from '../repositories/color-repository';
 
@@ -5,9 +6,12 @@ interface ListAllColorsUseCaseRequest {
   page: number;
 }
 
-interface ListAllColorsUseCaseResponse {
-  colors: Color[];
-}
+type ListAllColorsUseCaseResponse = Either<
+  null,
+  {
+    colors: Color[];
+  }
+>;
 
 export class ListAllColorsUseCase {
   constructor(private colorsRepository: ColorRepository) {}
@@ -17,8 +21,8 @@ export class ListAllColorsUseCase {
   }: ListAllColorsUseCaseRequest): Promise<ListAllColorsUseCaseResponse> {
     const colors = await this.colorsRepository.findAll({ page });
 
-    return {
+    return right({
       colors,
-    };
+    });
   }
 }
