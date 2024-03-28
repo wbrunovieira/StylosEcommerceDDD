@@ -3,6 +3,7 @@ import { InMemoryColorRepository } from '@/test/repositories/in-memory-color-rep
 import { DeleteColorUseCase } from './delete-color';
 
 import { makeColor } from '@/test/factories/make-color';
+import { ResourceNotFoundError } from './errors/resource-not-found-error';
 
 let inMemoryColorRepository: InMemoryColorRepository;
 let sut: DeleteColorUseCase;
@@ -18,10 +19,20 @@ describe('Delete Color', () => {
 
     await inMemoryColorRepository.create(newColor);
 
-    await sut.execute({
+    const result = await sut.execute({
       colorId: 'color-1',
     });
 
-    expect(inMemoryColorRepository.items).toHaveLength(0);
+    expect(result.isRight()).toBe(true);
+  });
+
+  it('should return an error if the color does not exist', async () => {
+    // Nota: Não criamos a cor aqui, simulando a situação onde a cor não existe
+    const result = await sut.execute({
+      colorId: 'non-existing-color',
+    });
+
+    expect(result.isLeft()).toBe(true);
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   });
 });

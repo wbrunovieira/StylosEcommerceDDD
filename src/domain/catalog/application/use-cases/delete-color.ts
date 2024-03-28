@@ -1,11 +1,12 @@
 import { Either, left, right } from '@/core/either';
 import { ColorRepository } from '../repositories/color-repository';
+import { ResourceNotFoundError } from './errors/resource-not-found-error';
 
 interface DeleteColorUseCaseRequest {
   colorId: string;
 }
 
-type DeleteColorUseCaseResponse = Either<string, {}>;
+type DeleteColorUseCaseResponse = Either<ResourceNotFoundError, {}>;
 
 export class DeleteColorUseCase {
   constructor(private colorsRepository: ColorRepository) {}
@@ -16,7 +17,7 @@ export class DeleteColorUseCase {
     const color = await this.colorsRepository.findById(colorId);
 
     if (!color) {
-      return left('Color not found');
+      return left(new ResourceNotFoundError());
     }
 
     await this.colorsRepository.delete(color);
