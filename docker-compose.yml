@@ -3,7 +3,7 @@ services:
   ddd:
     container_name: stylos_ddd
     build: .
-    command: npx vitest run
+    command: npm run test
     volumes:
       - ./src:/app/src
     environment:
