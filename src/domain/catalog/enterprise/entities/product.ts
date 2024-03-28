@@ -1,5 +1,6 @@
+import { AggregateRoot } from '@/core/entities/aggregate-root';
 import { Slug } from './value-objects/slug';
-import { Entity } from '@/core/entities/entity';
+
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { Optional } from '@/core/types/optional';
 
@@ -19,7 +20,7 @@ export interface ProductProps {
   updatedAt: Date;
 }
 
-export class Product extends Entity<ProductProps> {
+export class Product extends AggregateRoot<ProductProps> {
   private touch() {
     this.props.updatedAt = new Date();
   }
