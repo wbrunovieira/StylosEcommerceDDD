@@ -1,10 +1,11 @@
+import { Either, left, right } from '@/core/either';
 import { ColorRepository } from '../repositories/color-repository';
 
 interface DeleteColorUseCaseRequest {
   colorId: string;
 }
 
-interface DeleteColorUseCaseResponse {}
+type DeleteColorUseCaseResponse = Either<string, {}>;
 
 export class DeleteColorUseCase {
   constructor(private colorsRepository: ColorRepository) {}
@@ -15,11 +16,11 @@ export class DeleteColorUseCase {
     const color = await this.colorsRepository.findById(colorId);
 
     if (!color) {
-      throw new Error('Color not found.');
+      return left('Color not found');
     }
 
     await this.colorsRepository.delete(color);
 
-    return {};
+    return right({});
   }
 }
