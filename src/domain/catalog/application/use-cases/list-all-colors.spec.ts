@@ -16,12 +16,11 @@ describe('List All Colors', () => {
     await inMemoryColorRepository.create(makeColor({ name: 'Azul' }));
     await inMemoryColorRepository.create(makeColor({ name: 'Verde' }));
 
-    const { colors } = await sut.execute({
+    const result = await sut.execute({
       page: 1,
     });
-    console.log(' colors geradas:', colors);
 
-    expect(colors).toEqual([
+    expect(result.value?.colors).toEqual([
       expect.objectContaining({ name: 'Azul' }),
       expect.objectContaining({ name: 'Verde' }),
       expect.objectContaining({ name: 'Vermelho' }),
@@ -33,10 +32,10 @@ describe('List All Colors', () => {
       await inMemoryColorRepository.create(makeColor());
     }
 
-    const { colors } = await sut.execute({
+    const result = await sut.execute({
       page: 2,
     });
 
-    expect(colors).toHaveLength(2);
+    expect(result.value?.colors).toHaveLength(2);
   });
 });

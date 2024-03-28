@@ -27,7 +27,6 @@ describe('Delete Color', () => {
   });
 
   it('should return an error if the color does not exist', async () => {
-    // Nota: Não criamos a cor aqui, simulando a situação onde a cor não existe
     const result = await sut.execute({
       colorId: 'non-existing-color',
     });

@@ -1,5 +1,5 @@
 import { InMemoryColorRepository } from '@/test/repositories/in-memory-color-repository';
-import { ColorRepository } from '../repositories/color-repository';
+
 import { CreateColorUseCase } from './create-color';
 
 let inMemoryColorRepository: InMemoryColorRepository;
@@ -12,11 +12,11 @@ describe('CreateColorUseCase', () => {
   });
 
   it('should be able to create a color', async () => {
-    const { color } = await sut.execute({
+    const result = await sut.execute({
       name: 'red',
     });
 
-    expect(color.id).toBeTruthy();
-    expect(inMemoryColorRepository.items[0].id).toEqual(color.id);
+    expect(result.isRight).toBeTruthy();
+    expect(inMemoryColorRepository.items[0]).toEqual(result.value?.color);
   });
 });

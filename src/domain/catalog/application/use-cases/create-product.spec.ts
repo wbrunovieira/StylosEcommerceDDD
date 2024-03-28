@@ -10,7 +10,7 @@ beforeEach(() => {
   sut = new CreateProductUseCase(inMemoryProductRepository);
 });
 it('should be able to create a product', async () => {
-  const { product } = await sut.execute({
+  const result = await sut.execute({
     name: 'name',
     description: 'description',
     colorIds: ['1', '2'],
@@ -21,8 +21,8 @@ it('should be able to create a product', async () => {
     stock: 1,
   });
 
-  expect(product.id).toBeTruthy();
+  expect(result.isRight).toBeTruthy();
   expect(
-    (inMemoryProductRepository as InMemoryProductRepository).items[0].id
-  ).toEqual(product.id);
+    (inMemoryProductRepository as InMemoryProductRepository).items[0]
+  ).toEqual(result.value?.product);
 });

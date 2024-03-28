@@ -22,11 +22,11 @@ describe('List Recent Products', () => {
       makeProduct({ createdAt: new Date(2022, 0, 23) })
     );
 
-    const { products } = await sut.execute({
+    const result = await sut.execute({
       page: 1,
     });
 
-    expect(products).toEqual([
+    expect(result.value?.products).toEqual([
       expect.objectContaining({ createdAt: new Date(2022, 0, 23) }),
       expect.objectContaining({ createdAt: new Date(2022, 0, 20) }),
       expect.objectContaining({ createdAt: new Date(2022, 0, 18) }),
@@ -38,10 +38,10 @@ describe('List Recent Products', () => {
       await inMemoryProductsRepository.create(makeProduct());
     }
 
-    const { products } = await sut.execute({
+    const result = await sut.execute({
       page: 2,
     });
 
-    expect(products).toHaveLength(2);
+    expect(result.value?.products).toHaveLength(2);
   });
 });

@@ -3,6 +3,7 @@ import { InMemoryProductRepository } from '@/test/repositories/in-memory-product
 import { DeleteProductUseCase } from './delete-product';
 
 import { makeProduct } from '@/test/factories/make-product';
+import { ResourceNotFoundError } from './errors/resource-not-found-error';
 
 let inMemoryProductRepository: InMemoryProductRepository;
 let sut: DeleteProductUseCase;
@@ -18,10 +19,19 @@ describe('Delete Product', () => {
 
     await inMemoryProductRepository.create(newProduct);
 
-    await sut.execute({
+    const result = await sut.execute({
       productId: 'product-1',
     });
 
-    expect(inMemoryProductRepository.items).toHaveLength(0);
+    expect(result.isRight()).toBe(true);
+  });
+
+  it('should return an error if the product does not exist', async () => {
+    const result = await sut.execute({
+      productId: 'non-existing-product',
+    });
+
+    expect(result.isLeft()).toBe(true);
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   });
 });

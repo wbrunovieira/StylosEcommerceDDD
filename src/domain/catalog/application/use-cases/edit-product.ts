@@ -53,6 +53,7 @@ export class EditProductUseCase {
     product.brandId = brandID;
     product.price = price;
     product.stock = stock;
+    product.slug = Slug.createFromText(slug);
     slug: Slug.createFromText('name-teste'),
       await this.productsRepository.save(product);
 
