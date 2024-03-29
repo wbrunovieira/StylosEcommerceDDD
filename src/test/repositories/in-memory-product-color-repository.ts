@@ -28,6 +28,8 @@ export class InMemoryProductColorRepository {
   }
 
   async deleteAllByProductId(productId: string): Promise<void> {
-    this.items = this.items.filter((item) => item.id.toString() !== productId);
+    this.items = this.items.filter(
+      (item) => item.productId.toString() !== productId
+    );
   }
 }
