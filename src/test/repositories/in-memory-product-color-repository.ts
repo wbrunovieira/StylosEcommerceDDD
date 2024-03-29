@@ -26,4 +26,8 @@ export class InMemoryProductColorRepository {
       this.items.splice(index, 1);
     }
   }
+
+  async deleteAllByProductId(productId: string): Promise<void> {
+    this.items = this.items.filter((item) => item.id.toString() !== productId);
+  }
 }

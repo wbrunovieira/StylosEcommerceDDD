@@ -9,4 +9,5 @@ export interface ProductColorRepository {
   ): Promise<ProductColor[]>;
   create(productColor: ProductColor): Promise<void>;
   delete(productColor: ProductColor): Promise<void>;
+  deleteAllByProductId(productId: string): Promise<void>;
 }
