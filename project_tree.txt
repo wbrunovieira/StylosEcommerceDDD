@@ -1,0 +1,85 @@
+.
+├── Dockerfile
+├── commands.md
+├── docker-compose.yml
+├── package-lock.json
+├── package.json
+├── plain.md
+├── project_tree.txt
+├── src
+│   ├── core
+│   │   ├── either.ts
+│   │   ├── entities
+│   │   │   ├── aggregate-root.ts
+│   │   │   ├── entity.ts
+│   │   │   └── unique-entity-id.ts
+│   │   ├── errors
+│   │   │   └── use-case-error.ts
+│   │   ├── repositories
+│   │   │   └── pagination-params.ts
+│   │   └── types
+│   │       └── optional.ts
+│   ├── domain
+│   │   ├── auth
+│   │   │   ├── application
+│   │   │   └── enterprise
+│   │   │       └── entities
+│   │   │           └── user.ts
+│   │   ├── catalog
+│   │   │   ├── application
+│   │   │   │   ├── repositories
+│   │   │   │   │   ├── color-repository.ts
+│   │   │   │   │   └── product-repository.ts
+│   │   │   │   └── use-cases
+│   │   │   │       ├── create-color.spec.ts
+│   │   │   │       ├── create-color.ts
+│   │   │   │       ├── create-product.spec.ts
+│   │   │   │       ├── create-product.ts
+│   │   │   │       ├── delete-color.spec.ts
+│   │   │   │       ├── delete-color.ts
+│   │   │   │       ├── delete-product.spec.ts
+│   │   │   │       ├── delete-product.ts
+│   │   │   │       ├── edit-color.spec.ts
+│   │   │   │       ├── edit-color.ts
+│   │   │   │       ├── edit-product.spec.ts
+│   │   │   │       ├── edit-product.ts
+│   │   │   │       ├── errors
+│   │   │   │       │   ├── not-allowed-error.ts
+│   │   │   │       │   └── resource-not-found-error.ts
+│   │   │   │       ├── get-product-by-slug.spec.ts
+│   │   │   │       ├── get-product-by-slug.ts
+│   │   │   │       ├── list-all-colors.spec.ts
+│   │   │   │       ├── list-all-colors.ts
+│   │   │   │       ├── list-recent-products.spec.ts
+│   │   │   │       └── list-recent-products.ts
+│   │   │   └── enterprise
+│   │   │       └── entities
+│   │   │           ├── brand.ts
+│   │   │           ├── color.ts
+│   │   │           ├── material.ts
+│   │   │           ├── product.ts
+│   │   │           ├── size.ts
+│   │   │           └── value-objects
+│   │   │               ├── slug.spec.ts
+│   │   │               └── slug.ts
+│   │   ├── costumer
+│   │   │   ├── application
+│   │   │   │   ├── repositories
+│   │   │   │   └── use-cases
+│   │   │   └── enterprise
+│   │   │       └── entities
+│   │   │           └── cart.ts
+│   │   ├── logistic
+│   │   ├── order
+│   │   └── payment
+│   └── test
+│       ├── factories
+│       │   ├── make-color.ts
+│       │   └── make-product.ts
+│       └── repositories
+│           ├── in-memory-color-repository.ts
+│           └── in-memory-product-repository.ts
+├── tsconfig.json
+└── vite.config.ts
+
+32 directories, 51 files

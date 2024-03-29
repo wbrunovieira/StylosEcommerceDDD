@@ -1,15 +1,15 @@
-import { AggregateRoot } from '@/core/entities/aggregate-root';
 import { Slug } from './value-objects/slug';
 
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { Optional } from '@/core/types/optional';
 
 import dayjs from 'dayjs';
+import { Entity } from '@/core/entities/entity';
 
 export interface ProductProps {
   name: string;
   description: string;
-  colorId?: UniqueEntityID[];
+
   sizeId?: UniqueEntityID[];
   materialId?: UniqueEntityID;
   brandID: UniqueEntityID;
@@ -20,7 +20,7 @@ export interface ProductProps {
   updatedAt: Date;
 }
 
-export class Product extends AggregateRoot<ProductProps> {
+export class Product extends Entity<ProductProps> {
   private touch() {
     this.props.updatedAt = new Date();
   }
@@ -42,10 +42,6 @@ export class Product extends AggregateRoot<ProductProps> {
 
   get sizeId(): UniqueEntityID[] | undefined {
     return this.props.sizeId;
-  }
-
-  get colorId(): UniqueEntityID[] | undefined {
-    return this.props.colorId;
   }
 
   get price() {
@@ -102,12 +98,6 @@ export class Product extends AggregateRoot<ProductProps> {
 
   set sizeId(sizeId: UniqueEntityID[]) {
     this.props.sizeId = sizeId;
-
-    this.touch();
-  }
-
-  set colorId(colorId: UniqueEntityID[]) {
-    this.props.colorId = colorId;
 
     this.touch();
   }

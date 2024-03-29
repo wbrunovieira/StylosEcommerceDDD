@@ -1,9 +1,13 @@
-import { Either, right } from '@/core/either';
+import { Either, left, right } from '@/core/either';
 import { Product } from '../../enterprise/entities/product';
+import { ProductColor } from '../../enterprise/entities/product-color';
 
 import { ProductRepository } from '../repositories/product-repository';
 
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
+import { ProductColorRepository } from '../repositories/product-color-repository';
+import { ColorRepository } from '../repositories/color-repository';
+import { ResourceNotFoundError } from './errors/resource-not-found-error';
 
 interface CreateProductUseCaseRequest {
   name: string;
@@ -17,13 +21,17 @@ interface CreateProductUseCaseRequest {
 }
 
 type CreateProductUseCaseResponse = Either<
-  null,
+  ResourceNotFoundError,
   {
     product: Product;
   }
 >;
 export class CreateProductUseCase {
-  constructor(private productRepository: ProductRepository) {}
+  constructor(
+    private productRepository: ProductRepository,
+    private productColorRepository: ProductColorRepository,
+    private colorRepository: ColorRepository
+  ) {}
 
   async execute({
     name,
@@ -38,7 +46,7 @@ export class CreateProductUseCase {
     const product = Product.create({
       name,
       description,
-      colorId: colorIds.map((id) => new UniqueEntityID(id)),
+
       sizeId: sizeIds.map((id) => new UniqueEntityID(id)),
       materialId: new UniqueEntityID(materialId),
       brandID: new UniqueEntityID(brandID),
@@ -47,6 +55,21 @@ export class CreateProductUseCase {
     });
 
     await this.productRepository.create(product);
+
+    for (const colorId of colorIds) {
+      const color = await this.colorRepository.findById(colorId);
+      if (!color) {
+        return left(new ResourceNotFoundError());
+      }
+    }
+
+    for (const colorId of colorIds) {
+      const productColor = new ProductColor({
+        productId: product.id,
+        colorId: new UniqueEntityID(colorId),
+      });
+      await this.productColorRepository.create(productColor);
+    }
 
     return right({
       product,

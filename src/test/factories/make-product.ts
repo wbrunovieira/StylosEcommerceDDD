@@ -15,7 +15,7 @@ export function makeProduct(
       name: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
       price: Number(faker.commerce.price()),
-      colorId: [new UniqueEntityID()],
+
       sizeId: [new UniqueEntityID()],
       brandID: new UniqueEntityID(),
 

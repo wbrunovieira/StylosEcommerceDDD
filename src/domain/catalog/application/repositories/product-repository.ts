@@ -1,5 +1,7 @@
 import { PaginationParams } from '@/core/repositories/pagination-params';
 import { Product } from '../../enterprise/entities/product';
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
+import { ProductColor } from '../../enterprise/entities/product-color';
 
 export interface ProductRepository {
   findById(id: string): Promise<Product | null>;
