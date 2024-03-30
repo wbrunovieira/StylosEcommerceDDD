@@ -21,6 +21,10 @@ export class Size extends Entity<SizeProps> {
     return this.props.updatedAt;
   }
 
+  set name(name: string) {
+    this.props.name = name;
+  }
+
   public static create(
     props: Optional<SizeProps, 'createdAt' | 'updatedAt'>,
     id?: UniqueEntityID
