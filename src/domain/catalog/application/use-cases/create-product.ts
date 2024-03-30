@@ -8,6 +8,11 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { ProductColorRepository } from '../repositories/product-color-repository';
 import { ColorRepository } from '../repositories/color-repository';
 import { ResourceNotFoundError } from './errors/resource-not-found-error';
+import { BrandRepository } from '../repositories/brand-repository';
+import { MaterialRepository } from '../repositories/material-repository';
+import { SizeRepository } from '../repositories/size-repository';
+import { ProductSizeRepository } from '../repositories/product-size-repository';
+import { ProductSize } from '../../enterprise/entities/product-size';
 
 interface CreateProductUseCaseRequest {
   name: string;
@@ -30,7 +35,11 @@ export class CreateProductUseCase {
   constructor(
     private productRepository: ProductRepository,
     private productColorRepository: ProductColorRepository,
-    private colorRepository: ColorRepository
+    private colorRepository: ColorRepository,
+    // private brandRepository: BrandRepository,
+    // private materialRepository: MaterialRepository,
+    private sizeRepository: SizeRepository,
+    private productsizeRepository: ProductSizeRepository
   ) {}
 
   async execute({
@@ -46,8 +55,6 @@ export class CreateProductUseCase {
     const product = Product.create({
       name,
       description,
-
-      sizeId: sizeIds.map((id) => new UniqueEntityID(id)),
       materialId: new UniqueEntityID(materialId),
       brandID: new UniqueEntityID(brandID),
       price,
@@ -69,6 +76,23 @@ export class CreateProductUseCase {
         colorId: new UniqueEntityID(colorId),
       });
       await this.productColorRepository.create(productColor);
+    }
+
+    //size
+
+    for (const sizeId of sizeIds) {
+      const size = await this.sizeRepository.findById(sizeId);
+      if (!size) {
+        return left(new ResourceNotFoundError());
+      }
+    }
+
+    for (const sizeId of sizeIds) {
+      const productSize = new ProductSize({
+        productId: product.id,
+        sizeId: new UniqueEntityID(sizeId),
+      });
+      await this.productsizeRepository.create(productSize);
     }
 
     return right({

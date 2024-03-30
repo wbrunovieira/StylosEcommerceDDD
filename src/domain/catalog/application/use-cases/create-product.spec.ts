@@ -8,39 +8,53 @@ import { ColorRepository } from '../repositories/color-repository';
 
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { makeColor } from '@/test/factories/make-color';
+import { SizeRepository } from '../repositories/size-repository';
+import { InMemorySizeRepository } from '@/test/repositories/in-memory-size-repository';
+import { ProductSizeRepository } from '../repositories/product-size-repository';
+import { InMemoryProductSizeRepository } from '@/test/repositories/in-memory-product-size-repository';
 
 describe('CreateProductUseCase', () => {
   let inMemoryProductRepository: ProductRepository;
+  let inMemoryProductColorRepository: ProductColorRepository;
+  let inMemoryProductSizeRepository: ProductSizeRepository;
+  let inMemoryColorRepository: ColorRepository;
+  let inMemorySizeRepository: SizeRepository;
 
   let sut: CreateProductUseCase;
-
-  let inMemoryProductColorRepository: ProductColorRepository;
-  let inMemoryColorRepository: ColorRepository;
-
   beforeEach(() => {
     inMemoryProductRepository = new InMemoryProductRepository();
     inMemoryProductColorRepository = new InMemoryProductColorRepository();
+    inMemoryProductSizeRepository = new InMemoryProductSizeRepository();
     inMemoryColorRepository = new InMemoryColorRepository();
+    inMemorySizeRepository = new InMemorySizeRepository();
 
     const color1 = makeColor({ name: 'Cor 1' }, new UniqueEntityID('1'));
     const color2 = makeColor({ name: 'Cor 2' }, new UniqueEntityID('2'));
 
+    const size1 = makeColor({ name: 'Small' }, new UniqueEntityID('1'));
+    const size2 = makeColor({ name: 'Medium' }, new UniqueEntityID('2'));
+
     inMemoryColorRepository.create(color1);
     inMemoryColorRepository.create(color2);
+
+    inMemorySizeRepository.create(size1);
+    inMemorySizeRepository.create(size2);
 
     sut = new CreateProductUseCase(
       inMemoryProductRepository,
       inMemoryProductColorRepository,
-      inMemoryColorRepository
+      inMemoryColorRepository,
+      inMemorySizeRepository,
+      inMemoryProductSizeRepository
     );
   });
 
-  it('should be able to create a product without colors', async () => {
+  it('should be able to create a product without colors and sizes', async () => {
     const result = await sut.execute({
       name: 'name',
       description: 'description',
       colorIds: [],
-      sizeIds: ['1', '2'],
+      sizeIds: [],
       materialId: '1',
       brandID: '1',
       price: 100,
@@ -81,6 +95,9 @@ describe('CreateProductUseCase', () => {
     const productColors = await inMemoryProductColorRepository.findByProductId(
       createdProduct.id.toString()
     );
+    const productSizes = await inMemoryProductSizeRepository.findByProductId(
+      createdProduct.id.toString()
+    );
     console.log('productColors ', productColors);
 
     expect(productColors).toHaveLength(2);
@@ -89,6 +106,10 @@ describe('CreateProductUseCase', () => {
     ).toBeTruthy();
     expect(
       productColors.some((pc) => pc.colorId.toString() === '2')
+    ).toBeTruthy();
+    expect(productSizes).toHaveLength(2);
+    expect(
+      productSizes.some((ps) => ps.sizeId.toString() === '1')
     ).toBeTruthy();
   });
 });
