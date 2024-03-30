@@ -21,6 +21,10 @@ export class Brand extends Entity<BrandProps> {
     return this.props.updatedAt;
   }
 
+  set name(name: string) {
+    this.props.name = name;
+  }
+
   static create(
     props: Optional<BrandProps, 'createdAt' | 'updatedAt'>,
     id?: UniqueEntityID
