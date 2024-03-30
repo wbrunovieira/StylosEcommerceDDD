@@ -1,35 +1,29 @@
 import { ProductSize } from '@/domain/catalog/enterprise/entities/product-size';
 
 import { PaginationParams } from '@/core/repositories/pagination-params';
+import { ProductSizeRepository } from '@/domain/catalog/application/repositories/product-size-repository';
+import { Size } from '@/domain/catalog/enterprise/entities/size';
 
-export class InMemoryProductSizeRepository {
-  public items: ProductSize[] = [];
-
-  async create(productSize: ProductSize): Promise<void> {
-    this.items.push(productSize);
+export class InMemoryProductSizeRepository implements ProductSizeRepository {
+  findByProductId(productId: string): Promise<ProductSize[]> {
+    throw new Error('Method not implemented.');
   }
-
-  async findByProductId(productId: string): Promise<ProductSize[]> {
-    return this.items.filter((item) => item.productId.toString() === productId);
-  }
-
-  async findBySizeId(
+  findBySizeId(
     sizeId: string,
     params: PaginationParams
   ): Promise<ProductSize[]> {
-    return this.items.filter((item) => item.sizeId.toString() === sizeId);
+    throw new Error('Method not implemented.');
   }
-
-  async delete(productSize: ProductSize): Promise<void> {
-    const index = this.items.findIndex((item) => item.equals(productSize));
-    if (index !== -1) {
-      this.items.splice(index, 1);
-    }
+  create(productSize: ProductSize): Promise<void> {
+    throw new Error('Method not implemented.');
   }
-
-  async deleteAllByProductId(productId: string): Promise<void> {
-    this.items = this.items.filter(
-      (item) => item.productId.toString() !== productId
-    );
+  delete(productSize: ProductSize): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+  deleteAllByProductId(productId: string): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+  findById(id: string): Promise<Size> {
+    throw new Error('Method not implemented.');
   }
 }

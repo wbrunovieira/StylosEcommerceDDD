@@ -12,6 +12,8 @@ import { SizeRepository } from '../repositories/size-repository';
 import { InMemorySizeRepository } from '@/test/repositories/in-memory-size-repository';
 import { ProductSizeRepository } from '../repositories/product-size-repository';
 import { InMemoryProductSizeRepository } from '@/test/repositories/in-memory-product-size-repository';
+import { InMemoryBrandRepository } from '@/test/repositories/in-memory-brand-repository';
+import { makeSize } from '@/test/factories/make-size';
 
 describe('CreateProductUseCase', () => {
   let inMemoryProductRepository: ProductRepository;
@@ -19,6 +21,7 @@ describe('CreateProductUseCase', () => {
   let inMemoryProductSizeRepository: ProductSizeRepository;
   let inMemoryColorRepository: ColorRepository;
   let inMemorySizeRepository: SizeRepository;
+  let inMemoryBrandRepository: InMemoryBrandRepository;
 
   let sut: CreateProductUseCase;
   beforeEach(() => {
@@ -27,12 +30,13 @@ describe('CreateProductUseCase', () => {
     inMemoryProductSizeRepository = new InMemoryProductSizeRepository();
     inMemoryColorRepository = new InMemoryColorRepository();
     inMemorySizeRepository = new InMemorySizeRepository();
+    inMemoryBrandRepository = new InMemoryBrandRepository();
 
     const color1 = makeColor({ name: 'Cor 1' }, new UniqueEntityID('1'));
     const color2 = makeColor({ name: 'Cor 2' }, new UniqueEntityID('2'));
 
-    const size1 = makeColor({ name: 'Small' }, new UniqueEntityID('1'));
-    const size2 = makeColor({ name: 'Medium' }, new UniqueEntityID('2'));
+    const size1 = makeSize({ name: 'Small' }, new UniqueEntityID('3'));
+    const size2 = makeSize({ name: 'Medium' }, new UniqueEntityID('4'));
 
     inMemoryColorRepository.create(color1);
     inMemoryColorRepository.create(color2);
@@ -45,7 +49,8 @@ describe('CreateProductUseCase', () => {
       inMemoryProductColorRepository,
       inMemoryColorRepository,
       inMemorySizeRepository,
-      inMemoryProductSizeRepository
+      inMemoryProductSizeRepository,
+      inMemoryBrandRepository
     );
   });
 
@@ -70,12 +75,12 @@ describe('CreateProductUseCase', () => {
     ).toHaveLength(1);
   });
 
-  it('should be able to create a product with colors', async () => {
+  it('should be able to create a product with colors and sizes', async () => {
     const result = await sut.execute({
       name: 'name',
       description: 'description',
       colorIds: ['1', '2'],
-      sizeIds: ['1', '2'],
+      sizeIds: ['3', '4'],
       materialId: '1',
       brandID: '1',
       price: 100,
@@ -109,7 +114,7 @@ describe('CreateProductUseCase', () => {
     ).toBeTruthy();
     expect(productSizes).toHaveLength(2);
     expect(
-      productSizes.some((ps) => ps.sizeId.toString() === '1')
+      productSizes.some((ps) => ps.sizeId.toString() === '3')
     ).toBeTruthy();
   });
 });

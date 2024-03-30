@@ -10,9 +10,10 @@ import { ColorRepository } from '../repositories/color-repository';
 import { ResourceNotFoundError } from './errors/resource-not-found-error';
 import { BrandRepository } from '../repositories/brand-repository';
 import { MaterialRepository } from '../repositories/material-repository';
+
+import { ProductSize } from '../../enterprise/entities/product-size';
 import { SizeRepository } from '../repositories/size-repository';
 import { ProductSizeRepository } from '../repositories/product-size-repository';
-import { ProductSize } from '../../enterprise/entities/product-size';
 
 interface CreateProductUseCaseRequest {
   name: string;
@@ -36,10 +37,10 @@ export class CreateProductUseCase {
     private productRepository: ProductRepository,
     private productColorRepository: ProductColorRepository,
     private colorRepository: ColorRepository,
-    // private brandRepository: BrandRepository,
-    // private materialRepository: MaterialRepository,
+    private brandRepository: BrandRepository,
     private sizeRepository: SizeRepository,
-    private productsizeRepository: ProductSizeRepository
+    private productSizeRepository: ProductSizeRepository
+    // private materialRepository: MaterialRepository,
   ) {}
 
   async execute({
@@ -52,6 +53,10 @@ export class CreateProductUseCase {
     price,
     stock,
   }: CreateProductUseCaseRequest): Promise<CreateProductUseCaseResponse> {
+    const brand = await this.brandRepository.findById(brandID);
+    if (!brand) {
+      return left(new ResourceNotFoundError());
+    }
     const product = Product.create({
       name,
       description,
@@ -64,6 +69,7 @@ export class CreateProductUseCase {
     await this.productRepository.create(product);
 
     for (const colorId of colorIds) {
+      console.log(' aqui esta a cor', this.colorRepository.findById(colorId));
       const color = await this.colorRepository.findById(colorId);
       if (!color) {
         return left(new ResourceNotFoundError());
@@ -81,18 +87,19 @@ export class CreateProductUseCase {
     //size
 
     for (const sizeId of sizeIds) {
+      console.log(' aqui esta o tamanho', this.sizeRepository.findById(sizeId));
       const size = await this.sizeRepository.findById(sizeId);
       if (!size) {
         return left(new ResourceNotFoundError());
       }
-    }
 
-    for (const sizeId of sizeIds) {
-      const productSize = new ProductSize({
-        productId: product.id,
-        sizeId: new UniqueEntityID(sizeId),
-      });
-      await this.productsizeRepository.create(productSize);
+      for (const sizeId of sizeIds) {
+        const productSize = new ProductSize({
+          productId: product.id,
+          sizeId: new UniqueEntityID(sizeId),
+        });
+        await this.productSizeRepository.create(productSize);
+      }
     }
 
     return right({
